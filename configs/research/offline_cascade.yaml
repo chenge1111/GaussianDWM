@@ -1,0 +1,26 @@
+extends: online_joint.yaml
+mode: offline
+world:
+  enabled: false
+planning:
+  enabled: false
+lora:
+  world_unet:
+    enabled: false
+loss:
+  perceptual: 0
+  reconstruction_rgb: 0
+  reconstruction_depth: 0
+  semantic: 0
+  motion_rgb: 0
+  diffusion: 0
+  generation_rgb: 0
+  generation_depth: 0
+  planning: 0
+  command: 0
+  collision: 0
+  risk: 0
+  refined_planning: 0
+  refined_command: 0
+training:
+  max_steps: 1500

@@ -1,0 +1,126 @@
+# Full online research route. Values are starting settings, not measured optima.
+mode: online
+base:
+  model_id: dtc111/GaussianDWM
+  revision: a99358a60f54386b0bee9c4d3fa5a3fe058a2514
+semantic_residual: true
+lora:
+  enabled: true
+  qwen:
+    enabled: true
+    rank: 16
+    alpha: 32
+    dropout: 0.05
+    backbone_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+    lm_head_target_modules: [lm_head]
+  world_unet:
+    enabled: true
+    rank: 8
+    alpha: 16
+    dropout: 0.05
+    target_modules: [to_q, to_k, to_v, to_out.0]
+sampling:
+  coarse_tokens: 1024
+  min_tokens: 2048
+  max_tokens: 4096
+  occlusion_boost: 2.0
+  temperature: 0.2
+  neighbors: 32
+  chunk_size: 64
+  adaptive: true
+  soft_training: true
+  boost_enabled: true
+  cascade_enabled: true
+  attention_enabled: true
+occlusion:
+  enabled: true
+  threshold: 0.5
+  depth_margin: 0.5
+  semantic_fill: true
+  neighbors: 8
+prompt:
+  include_images: true
+  image_max_pixels: 89600
+reconstruction:
+  weights_dir: null  # Optional official DrivingForward depth_net.pth / gs_net.pth.
+  gaussian_stride: 8
+  max_speed: 30
+  drivingforward:
+    model:
+      novel_view_mode: SF
+      num_layers: 18
+      weights_init: true
+      fusion_level: 2
+      fusion_feat_in_dim: 256
+      use_skips: false
+      voxel_unit_size: [1.0, 1.0, 1.5]
+      voxel_size: [100, 100, 20]
+      voxel_str_p: [-50.0, -50.0, -15.0]
+      voxel_pre_dim: [64]
+      proj_d_bins: 50
+      proj_d_str: 2
+      proj_d_end: 50
+    data:
+      num_cams: 6
+    training:
+      batch_size: 1
+      height: 352
+      width: 640
+      scales: [0]
+      min_depth: 1.5
+      max_depth: 80.0
+      focal_length_scale: 300
+planning:
+  enabled: true
+  horizon: 6
+  step_seconds: 0.5
+world:
+  enabled: true
+  height: 224
+  width: 400
+  view_index: 0
+  depth_max: 80.0
+  fps: 2
+  decode_chunk_size: 2
+loss:
+  reconstruction_rgb: 1.0
+  reconstruction_depth: 0.1
+  semantic: 0.1
+  semantic_code: 0.05
+  motion_rgb: 0.2
+  coarse: 0.1
+  qa: 1.0
+  diffusion: 1.0
+  generation_rgb: 0.1
+  generation_depth: 0.01
+  perceptual: 0.05
+  planning: 0.5
+  command: 0.1
+  collision: 0.05
+  risk: 0.1
+  refined_planning: 0.2
+  refined_command: 0.1
+training:
+  seed: 42
+  precision: bf16
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 2
+  gradient_checkpointing: true
+  max_steps: 15000
+  lr_lora: 0.00001
+  lr_reconstruction: 0.0001
+  lr_new_modules: 0.0001
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  num_workers: 4
+  logging_steps: 20
+  save_every_steps: 500
+inference:
+  coarse_max_new_tokens: 384
+  max_new_tokens: 512
+  max_resamples: 2
+  max_plan_refinements: 1
+  world_steps: 25
+  guidance_scale: 2.0
+  risk_threshold: 0.5

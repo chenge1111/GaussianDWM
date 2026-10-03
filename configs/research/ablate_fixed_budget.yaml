@@ -1,0 +1,3 @@
+extends: offline_cascade.yaml
+sampling:
+  adaptive: false

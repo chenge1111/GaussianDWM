@@ -1,0 +1,6 @@
+extends: offline_cascade.yaml
+sampling:
+  boost_enabled: false
+occlusion:
+  enabled: false
+  semantic_fill: false

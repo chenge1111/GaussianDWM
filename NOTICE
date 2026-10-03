@@ -1,0 +1,20 @@
+This repository contains GaussianDWM CVPR release sources from:
+https://github.com/dtc111111/GaussianDWM
+Commit: 50e29cb7df691f58dc5c9992b7de6ec496a4e6d0
+Authors: Tianchen Deng and collaborators (see docs/UPSTREAM_README.md).
+The upstream README declares Apache License 2.0, but that snapshot does not
+contain the linked LICENSE file. This notice records the upstream declaration;
+it does not assert permission beyond the original authors' terms.
+
+DrivingForward network sources are included under their MIT license:
+https://github.com/fangzhou2000/DrivingForward
+Commit: 5d0a2c7d6a6358f55318faac80e351cf75dff032
+Copyright (c) 2024 Qijian Tian.
+License and adaptations are recorded in:
+src/gaussiandwm_research/vendor/drivingforward/LICENSE
+src/gaussiandwm_research/vendor/drivingforward/PROVENANCE.md
+
+New research extension files and modifications: 2026 Chenchen Ge.
+Base model weights, nuScenes data, SAM/CLIP weights and gsplat are separate
+resources subject to their own licenses/access terms. No weights or datasets
+are bundled in this Git repository.

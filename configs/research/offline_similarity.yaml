@@ -1,0 +1,20 @@
+# Comparable released-similarity reference using the distributed research runner.
+# For bit-for-bit original entry points, use gaussiandwm_cvpr/scripts instead.
+extends: offline_cascade.yaml
+semantic_residual: false
+sampling:
+  min_tokens: 4096
+  max_tokens: 4096
+  adaptive: false
+  soft_training: false
+  boost_enabled: false
+  cascade_enabled: false
+  attention_enabled: false
+occlusion:
+  enabled: false
+  semantic_fill: false
+loss:
+  coarse: 0
+  semantic_code: 0
+inference:
+  max_resamples: 0

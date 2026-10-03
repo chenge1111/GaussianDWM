@@ -1,0 +1,3 @@
+extends: offline_cascade.yaml
+inference:
+  max_resamples: 0

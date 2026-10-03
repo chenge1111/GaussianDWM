@@ -1,0 +1,3 @@
+extends: online_joint.yaml
+# Isolate downstream-to-reconstruction gradients while keeping reconstruction losses.
+detach_downstream_scene: true
