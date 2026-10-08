@@ -116,7 +116,10 @@ class DrivingManifestDataset(Dataset):
                     xyz = data[:,:3] @ transform[:3,:3].T+transform[:3,3]
                     quaternion = matrix_to_quaternion(transform[:3,:3])[None]
                     data = torch.cat([xyz,data[:,3:6],quaternion_multiply(quaternion,data[:,6:10]),data[:,10:]],-1)
-                values.append(data); view_ids.append(torch.full((len(data),),vi,dtype=torch.long))
+                from .public_data import CAMERAS
+                view_name = record.get("gauss_view_names",[])
+                view_id = CAMERAS.index(view_name[vi]) if view_name else vi
+                values.append(data); view_ids.append(torch.full((len(data),),view_id,dtype=torch.long))
             sample["gauss_values"] = torch.cat(values)
             sample["gauss_view_ids"] = torch.cat(view_ids)
             if "gauss_instance_ids_path" in record:

@@ -2,6 +2,8 @@
 
 项目入口：README。代码状态：实现交付；未执行测试、训练或 GPU 验证；无已报告实验数值。
 
+公开数据未转换/未匹配时，先执行 [PUBLIC_DATA_TASK](PUBLIC_DATA_TASK.md)，其中包括下载入口、具体命令、Gaussian 编号映射所需证据和应回传的报告。在线路线不依赖作者完整离线高斯；离线 QA 可以不读 LiDAR，但不能省略确认的 Gaussian 帧身份和坐标变换。
+
 ## 需要准备
 
 1. 有授权的 `dtc111/GaussianDWM` 基础权重，固定 revision 或同一份本地下载目录。

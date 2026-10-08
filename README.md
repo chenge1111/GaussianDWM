@@ -44,6 +44,8 @@ DrivingForward 初始化权重可选：下载官方 SF 权重，将 `reconstruct
 
 ## 准备真实数据
 
+公开原包的转换与匹配现在有专门入口，按 [公开数据处理任务](docs/PUBLIC_DATA_TASK.md) 执行即可。包括 NuInteract PKL/ZIP/caption、OmniDrive JSON 转换，SDK 唯一帧索引、Gaussian 身份/坐标匹配、缺失报告及给合作者的完整命令。离线 QA 可用 `--horizon 0 --depth-mode none` 整理，不要求 LiDAR；在线 RGB-D 联合监督仍需真实深度来源。
+
 本项目不自带 nuScenes、完整 QA 标注或训练权重。先准备 nuScenes trainval，整理真实 QA 为 JSONL，最低字段是 `sample_token`、`query`、`answer`，可提供 `task_kind: local/global` 及 `scene_hint`。
 
 ```bash

@@ -2,6 +2,8 @@
 
 JSONL 每行一个训练/推理样本。禁止将样例或伪造答案当实验数据。图片路径可相对 `--data-root`，所有缓存路径建议使用集群共享绝对路径。
 
+从公开原包制作清单请见 [PUBLIC_DATA_TASK](PUBLIC_DATA_TASK.md)。转换器新增保留 `split`、`qa_group`、`qa_subtask`、`source`、`raw_answer`、`grounding_annotation`；它们用于身份追溯和正式评测适配，不改变原标签坐标定义。Gaussian 映射输出 `gauss_view_names` 与每文件 `gauss_to_ego`。
+
 ## 必须字段
 
 | 字段 | 类型/约定 |
@@ -39,6 +41,8 @@ ego 坐标：x 前，y 左，z 上；位置/深度单位米；四元数 wxyz。G
 - `gauss_paths`：原 LangSplat `.pth` / `.npz` / packed `.npy` 文件列表，字段 `_xyz,_scaling,_rotation,_opacity,_language_feature`。高斯缩放/opacity 遵循原 normalizer 的语义；其中 opacity 原始为 logits。
 - `gauss_to_ego`：可选每个 Gaussian 文件坐标系 → 当前 ego 的 `[4,4]` 变换。省略代表文件本来已经是当前 ego 坐标，不能靠代码猜坐标系。
 - `gauss_instance_ids_path`：可选 `[N]` 实例 ids，与全部 Gaussian 拼接顺序一致。**有它才有可靠同实例均值填充**；缺失时只启用遮挡加权，不冒充已完成同实例关联。
+
+`prepare_nuscenes --horizon 0 --depth-mode none` 仅制作当前帧标定和 QA，保留已匹配 Gaussian 字段，不读 LiDAR。`--depth-mode lidar` 输出 `depth_kind=projected_sparse_lidar`、`depth_invalid_value=0` 和 `depth_size_hw`；稀疏缺测值不能充作稠密深度 GT。未来轨迹输出同时保留 `future_sample_tokens` 和 `future_times_seconds`。
 
 离线 Gaussian 的源文件不保证有完整颜色，本项目离线配置只跑 QA，避免将无颜色的占位值作为真实渲染。在线生成使用在线网络的颜色预测。
 

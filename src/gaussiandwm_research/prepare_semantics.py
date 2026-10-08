@@ -33,8 +33,8 @@ def main():
     output = Path(args.output_manifest); output.parent.mkdir(parents=True,exist_ok=True)
     def path(value):
         p = Path(value); return p if p.is_absolute() else root/p
-    with output.open("w",encoding="utf-8") as handle:
-        for line in Path(args.manifest).read_text(encoding="utf-8").splitlines():
+    with output.open("w",encoding="utf-8") as handle, Path(args.manifest).open(encoding="utf-8") as source:
+        for line in source:
             if not line.strip(): continue
             row = json.loads(line)
             digest = hashlib.sha256(row["query"].encode()).hexdigest()[:24]
@@ -47,7 +47,8 @@ def main():
             if sam is not None:
                 feature_paths,id_paths = [],[]
                 for vi,image_path in enumerate(row["image_paths"]):
-                    image_digest = hashlib.sha256(str(path(image_path).resolve()).encode()).hexdigest()[:24]
+                    signature = [str(path(image_path).resolve()),size,args.max_masks,"CLIP-ViT-B32-SAM-base"]
+                    image_digest = hashlib.sha256(json.dumps(signature).encode()).hexdigest()[:24]
                     feature_path = cache/f"sem-{image_digest}.npz"
                     ids_path = cache/f"instance-{image_digest}.npy"
                     if not feature_path.exists() or not ids_path.exists():
